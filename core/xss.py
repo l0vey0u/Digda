@@ -1,12 +1,17 @@
 import fuzzer
-import os
 
-class XSS(Fuzzer):
+class XSS(fuzzer.Fuzzer):
+    
     def __init__(self):
-        super('xss')
+        super().__init__('xss')
+
     def fuzz(self):
         pass
+    
     def parseReq(self):
         pass
+    
     def checkVuln(self):
         pass
+
+xss = XSS()
