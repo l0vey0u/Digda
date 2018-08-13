@@ -13,7 +13,6 @@
 		$(document).ready(function () {
 			$('#enqueue').click(function () {
 				isCheck = $("input[type=checkbox]:checked").length;
-
 				if (!isCheck) {
 					alert("하나 이상의 퍼징대상을 선택해주세요.");
 					return false;
@@ -46,12 +45,19 @@
 							<input type="url" name="url" required/> </label>
 					</td>
 				</tr>
+
+			</table>
+		</fieldset>
+
+		<fieldset>
+			<legend> 추가 정보 입력 </legend>
+			<table>
 				<tr>
 					<td>
 						<label> Method </label>
 						<td>
 							<label>
-								<input type="radio" name="method" value="get" required/> get </label>
+								<input type="radio" name="method" value="get"/> get </label>
 						</td>
 						<td>
 							<label>
@@ -61,15 +67,9 @@
 				<tr>
 					<td>
 						<label> Parameter
-							<input type="text" name="param" required/> </label>
+							<input type="text" name="param"/> </label>
 					</td>
 				</tr>
-			</table>
-		</fieldset>
-
-		<fieldset>
-			<legend> 추가 정보 입력 </legend>
-			<table>
 				<tr>
 					<td>
 						<label> Cookie
