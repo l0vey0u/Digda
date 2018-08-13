@@ -11,14 +11,20 @@ class Fuzzer(metaclass=ABCMeta):
     __fuzzList = []
 
     def __init__(self, _atkType):
-    #    self.__key = sys.argv[1]
-    #    self.readQueue()
+        self.__key = sys.argv[1]
         self._atkType = _atkType
+        self.readQueue()
         self.loadDict()
 
     def readQueue(self):
-        __sheet = open("./queue/"+self.__key+".json")
-        self.__reqInfo = json.load(__sheet)  
+        try:
+            __sheet = open("./queue/"+self.__key+".json")
+        except IOError as ferr:
+            print(ferr)
+        except Exception as err:
+            print(err)
+        else:
+            self.__reqInfo = json.load(__sheet)  
 
     def loadDict(self):
         __dictPath = os.getcwd()+"/core/dict/"+self._atkType
@@ -32,7 +38,6 @@ class Fuzzer(metaclass=ABCMeta):
             print(ferr)
         except Exception as err:
             print(err)
-        print(self.__fuzzList)
 
     @abstractmethod
     def parseReq(self):

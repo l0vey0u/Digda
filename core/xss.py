@@ -13,5 +13,3 @@ class XSS(fuzzer.Fuzzer):
     
     def checkVuln(self):
         pass
-
-xss = XSS()
