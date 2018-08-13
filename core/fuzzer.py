@@ -6,25 +6,12 @@ import os
 
 class Fuzzer(metaclass=ABCMeta):
     __key = 0
-    __reqInfo = {}
-    _atkType = ''
     __fuzzList = []
+    _atkType = ''
 
     def __init__(self, _atkType):
         self.__key = sys.argv[1]
-        self._atkType = _atkType
-        self.readQueue()
         self.loadDict()
-
-    def readQueue(self):
-        try:
-            __sheet = open("./queue/"+self.__key+".json")
-        except IOError as ferr:
-            print(ferr)
-        except Exception as err:
-            print(err)
-        else:
-            self.__reqInfo = json.load(__sheet)  
 
     def loadDict(self):
         __dictPath = os.getcwd()+"/core/dict/"+self._atkType
