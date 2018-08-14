@@ -9,8 +9,9 @@ class Fuzzer(metaclass=ABCMeta):
     __fuzzList = []
     _atkType = ''
 
-    def __init__(self, _atkType):
-        self.__key = sys.argv[1]
+    def __init__(self, key, fuzzData, _atkType):
+        self.__key = key
+        self.fuzzData = json.load(fuzzData)
         self.loadDict()
 
     def loadDict(self):
@@ -25,10 +26,6 @@ class Fuzzer(metaclass=ABCMeta):
             print(ferr)
         except Exception as err:
             print(err)
-
-    @abstractmethod
-    def parseReq(self):
-        pass
 
     @abstractmethod
     def fuzz(self):
