@@ -95,6 +95,20 @@
 </html>
 
 <?php
+	function parseParam($paramStr) {
+		$paramDict = array();
+		$paramPair = explode(';', $paramStr);
+		foreach($paramPair as $pp) {
+			list($key, $value) = explode('=', $pp);
+			if(strpos($value, 'Dig') !== FALSE) {
+				$paramDict[$key] = $value;
+			} else {
+				throw new Exception("None Dig Point Found");
+				return;
+			}
+		}
+		return $paramDict;
+	}
 	session_start();
 	$atkArr = array();
 	if(!empty($_POST['atkType'])) {
@@ -105,25 +119,41 @@
 	$isRightForm = FALSE;
 	if(count($atkArr)>0)
 		if(!empty($_POST['url']))
-			if(!empty($_POST['method']))
-					if(!empty($_POST['param']))
-							$isRightForm = TRUE;
+			$isRightForm = TRUE;
+
+	$method = '';
+	$param = '';
 	$cookie = '';
 	$header = '';
+
+	if(!empty($_POST['method']))
+		$method = $_POST['method'];
+	if(!empty($_POST['param']))
+	{
+		try {
+			$param = parseParam($_POST['param']);
+		} catch(Exception $e) {
+			echo "<script> alert(\'".$e->getMessage()."\'); </script>";
+		}
+	}
+		
 	if(!empty($_POST['cookie']))
 		$cookie = $_POST['cookie'];
 	if(!empty($_POST['header']))
 		$header = $_POST['header'];
+
 	if($isRightForm) {
 		$sheet = array(
 				'atkType' => $atkArr,
 				'url' => $_POST['url'],
-				'method' => $_POST['method'],
-				'param' => $_POST['param'],
+				'method' => $method,
+				'param' => $param,
 				'cookie' => $cookie,
 				'header' => $header,
 		);
 		$parsedSheet = json_encode((object)$sheet);
+		if(!is_dir('queue'))
+			mkdir('queue');
 		file_put_contents("./queue/".time().".json", $parsedSheet);
 		header("Location: ./");
 		die();
