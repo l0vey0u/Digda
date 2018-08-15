@@ -48,7 +48,7 @@ class Controller:
                 dump['formSet'] = Crawler(url).crawlParam()
                 dump.pop('method')
                 dump.pop('param')
-            else
+            else:
                 dump['formSet'] = [{dump.pop('method'):dump.pop('param')}]
         except Exception as err:
             print(err)
