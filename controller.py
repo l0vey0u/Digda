@@ -20,14 +20,15 @@ class Controller:
             dump = json.load(__sheet)
             atkList = dump.pop('atkType')
             atkFlag = 0
-            if(atkList.contains('xss'))
+            if atkList.contains('xss'):
                 atkFlag += 1
-            if(atkList.contains('sqli'))
+            if atkList.contains('sqli'):
                 atkFlag += 2
-            if(atkList.contains('dirlist'))
+            if atkList.contains('dirlist'):
                 atkFlag += 4
             self.atkFlag = atkFlag
             self.fuzzData = dump
+        print(dump)
     
     def needCrawl(self):
         dump = self.fuzzData
