@@ -130,6 +130,12 @@
 		$method = $_POST['method'];
 	if(!empty($_POST['param']))
 	{
+		if($method==='')
+		{
+			# Default : Post
+			$method = 'post';
+		}
+
 		try {
 			$param = parseParam($_POST['param']);
 		} catch(Exception $e) {

@@ -29,41 +29,32 @@ class Controller:
             self.atkFlag = atkFlag
             self.fuzzData = dump
     
-    def checkStatus(self):
-        # 추가 입력값에 대하여 판단후 크롤러에게 정보 넘김
-        stat = 0 
+    def needCrawl(self):
         dump = self.fuzzData
-        tag = list(dump.keys())
-        if tag.contains('url'):
-            if tag.contains('method'):
-                stat += 2
-            if tag.contains('param'):
-                stat += 1
+        if dump['url']:
+            if dump['param']:
+                return False
+            else:
+                return True
         else:
             raise Exception("URL Data Missing")
-
-        return stat
+        return True
     
     def fuzzIt(self):
-        # 실제 fuzz 컨트롤
+        dump = self.fuzzData
         try:
-            stat = self.checkStatus()
+            if self.needCrawl():
+                dump['formSet'] = Crawler(url).crawlParam()
+                dump.pop('method')
+                dump.pop('param')
+            else
+                dump['formSet'] = [{dump.pop('method'):dump.pop('param')}]
         except Exception as err:
             print(err)
+
         atkFlag = self.atkFlag
-
-        if stat < 2:
-            self.fuzzData['method'] = 'post'
-        else:
-            stat -= 2
-        
-        if stat < 1:
-            url = self.fuzzData['url']
-            self.fuzzData['param'] = Crawler(url).crawlParam()
-            
-        else:
-            print("Status Error")
-
+        print(dump)
+        return
         # Fuzz!
         if atkFlag >= 4:
             dirl = DirList(self.__key, json.dumps(self.fuzzData))
@@ -74,3 +65,6 @@ class Controller:
         if atkFlag >=1:
             xss = XSS(self.__key, json.dumps(self.fuzzData))
             atkFlag -=1
+c = Controller()
+c.readQueue()
+c.fuzzIt()

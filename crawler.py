@@ -30,12 +30,25 @@ class Crawler:
         return parsedHtml, res.headers
         
     def crawlParam(self):
-        paramList = []
+        formSet = []
         formDump = self.parsedHtml.find_all('form')
         for form in formDump:
             method = form.get('method')
             if method is None:
                 method = 'post'
+            inputDump = form.find_all('input')
+            param = {}
+            for inputElem in inputDump:
+                input_type = inputElem.get('type')
+                nameTag = inputElem.get('name')
+                # TODO radio같은 애들 처리를 어떻게 해주지
+                if input_type is None or input_type == 'submit':
+                    continue
+                if name is None : continue
+                nameTag = nameTag.encode("utf-8")
+                param[nameTag]='Dig'
+            formSet.append({method:param})
+        return formSet
             
 
         

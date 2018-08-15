@@ -19,7 +19,7 @@
 	{
 		if(checkValidate($queue))
 		{
-			echo "<pre>".shell_exec('python core/fuzzer.py '.$_GET['key'])."</pre>";		
+			echo "<pre>".shell_exec('python controller.py '.$_GET['key'])."</pre>";		
 		}
 		else
 		{
