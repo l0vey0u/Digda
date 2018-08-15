@@ -133,7 +133,7 @@
 		try {
 			$param = parseParam($_POST['param']);
 		} catch(Exception $e) {
-			echo "<script> alert(\'".$e->getMessage()."\'); </script>";
+			exit($e->getMessage());
 		}
 	}
 		
