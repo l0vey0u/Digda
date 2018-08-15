@@ -1,8 +1,9 @@
-import core.xss
-import core.sqli
-import core.dirlist
+#import core.xss
+#import core.sqli
+#import core.dirlist
+import sys
 import json
-
+from crawler import *
 class Controller:
     def __init__(self):
         self.__key = sys.argv[1]
@@ -20,11 +21,11 @@ class Controller:
             dump = json.load(__sheet)
             atkList = dump.pop('atkType')
             atkFlag = 0
-            if atkList.contains('xss'):
+            if 'xss' in atkList:
                 atkFlag += 1
-            if atkList.contains('sqli'):
+            if 'sqli' in atkList:
                 atkFlag += 2
-            if atkList.contains('dirlist'):
+            if 'dirlist' in atkList:
                 atkFlag += 4
             self.atkFlag = atkFlag
             self.fuzzData = dump
@@ -45,7 +46,7 @@ class Controller:
         dump = self.fuzzData
         try:
             if self.needCrawl():
-                dump['formSet'] = Crawler(url).crawlParam()
+                dump['formSet'] = Crawler(dump['url']).crawlParam()
                 dump.pop('method')
                 dump.pop('param')
             else:
@@ -54,7 +55,7 @@ class Controller:
             print(err)
 
         atkFlag = self.atkFlag
-        print(dump)
+        print(json.dumps(dump))
         return
         # Fuzz!
         if atkFlag >= 4:

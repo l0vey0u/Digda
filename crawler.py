@@ -44,8 +44,8 @@ class Crawler:
                 # TODO radio같은 애들 처리를 어떻게 해주지
                 if input_type is None or input_type == 'submit':
                     continue
-                if name is None : continue
-                nameTag = nameTag.encode("utf-8")
+                if nameTag is None : continue
+#                nameTag = nameTag.encode("utf-8")
                 param[nameTag]='Dig'
             formSet.append({method:param})
         return formSet
