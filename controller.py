@@ -63,7 +63,7 @@ class Controller:
             sqli = SQLi(self.__key, json.dumps(self.fuzzData))
             atkFlag -= 2
         if atkFlag >=1:
-            xss = core.xss.XSS(json.dumps(self.fuzzData))
+            xss = core.xss.XSS(self.__key, json.dumps(self.fuzzData))
             atkFlag -=1
 c = Controller()
 c.readQueue()

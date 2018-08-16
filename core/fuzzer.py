@@ -6,10 +6,12 @@ import os
 import requests
 
 class Fuzzer(metaclass=ABCMeta):
+    __key = 0
     __fuzzList = []
     _atkType = ''
 
-    def __init__(self, fuzzData, _atkType):
+    def __init__(self, key, fuzzData, _atkType):
+        self.__key = key
         self.fuzzData = json.loads(fuzzData)
         self._atkType = _atkType
         self.loadDict()
@@ -23,10 +25,8 @@ class Fuzzer(metaclass=ABCMeta):
                 # Remove Duplicated Payload
                 self.__fuzzList = list(set(self.__fuzzList))
         except IOError as ferr:
-            print("Hell")
             print(ferr)
         except Exception as err:
-            print("Hello")
             print(err)
 
     def fuzz(self):
@@ -59,9 +59,13 @@ class Fuzzer(metaclass=ABCMeta):
             raise Exception("Method is NOT GET or POST")
 
     @abstractmethod
-    def checkVuln(self):
+    def checkVuln(self, respList):
         pass
     
-    def exportResult(self):
-        # TO DO : Implement
-        pass
+    def exportResult(self, result):
+        __destPath = os.getcwd()+"/result/"+str(self.__key)
+        if not os.path.exists('result'):
+            os.mkdir('./result')
+        os.mkdir('./result/'+str(self.__key))
+        with open(__destPath+self._atkType+'.json', 'w') as out:
+            json.dump(result, out)
