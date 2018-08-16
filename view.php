@@ -38,15 +38,29 @@
             }
             $infoFile = file_get_contents('./result/'.$_GET['key'].'/queueInfo.txt');
             echo "<h1> URL : ".substr($infoFile,4)."</h1>";
-            if(file_exists('./result/'.$_GET['key'].'/xss.json'))
+			if(file_exists('./result/'.$_GET['key'].'/xss.json'))
             {
+                echo "<h3>&nbspXSS&nbsp</h3>";
                 $xss_json = file_get_contents('./result/'.$_GET['key'].'/xss.json');
-                #echo htmlspecialchars($xss_json);
                 $xss_data = json_decode($xss_json);
                 foreach($xss_data as $xss)
                 {
                         echo htmlentities($xss->payl).'&nbsp';
                         list($status, $isVuln) = $xss->resInfo;
+                        echo $status.'&nbsp';
+                        echo $isVuln ? 'Y':'N';
+                        echo "<br/>";
+                }
+            }
+            if(file_exists('./result/'.$_GET['key'].'/sqli.json'))
+            {
+                echo "<h3>&nbspSQLi&nbsp</h3>";
+                $sqli_json = file_get_contents('./result/'.$_GET['key'].'/sqli.json');
+                $sqli_data = json_decode($sqli_json);
+                foreach($sqli_data as $sqli)
+                {
+                        echo htmlentities($sqli->payl).'&nbsp';
+                        list($status, $isVuln) = $sqli->resInfo;
                         echo $status.'&nbsp';
                         echo $isVuln ? 'Y':'N';
                         echo "<br/>";
