@@ -1,9 +1,10 @@
 import core.xss
-#import core.sqli
+import core.sqli
 #import core.dirlist
 import sys
 import json
 from crawler import *
+
 class Controller:
     def __init__(self):
         self.__key = sys.argv[1]
@@ -59,7 +60,8 @@ class Controller:
             dirl = DirList(self.__key, json.dumps(self.fuzzData))
             atkFlag -= 4
         if atkFlag >= 2:
-            sqli = SQLi(self.__key, json.dumps(self.fuzzData))
+            sqli = core.sqli.SQLi(self.__key, json.dumps(self.fuzzData))
+            sqli.exportResult(sqli.checkVuln(sqli.fuzz()))
             atkFlag -= 2
         if atkFlag >=1:
             xss = core.xss.XSS(self.__key, json.dumps(self.fuzzData))
