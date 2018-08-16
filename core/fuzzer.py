@@ -6,26 +6,27 @@ import os
 import requests
 
 class Fuzzer(metaclass=ABCMeta):
-    __key = 0
     __fuzzList = []
     _atkType = ''
 
     def __init__(self, fuzzData, _atkType):
-        self.__key = key
-        self.fuzzData = json.load(fuzzData)
+        self.fuzzData = json.loads(fuzzData)
+        self._atkType = _atkType
         self.loadDict()
 
     def loadDict(self):
         __dictPath = os.getcwd()+"/core/dict/"+self._atkType
         try:
             for item in os.scandir(__dictPath):
-                __dictFile = open("./core/dict/"+self._atkType+"/"+item.name) 
+                __dictFile = open("./core/dict/"+self._atkType+"/"+item.name, encoding='utf-8') 
                 self.__fuzzList += __dictFile.read().splitlines()
                 # Remove Duplicated Payload
                 self.__fuzzList = list(set(self.__fuzzList))
         except IOError as ferr:
+            print("Hell")
             print(ferr)
         except Exception as err:
+            print("Hello")
             print(err)
 
     def fuzz(self):
@@ -40,6 +41,7 @@ class Fuzzer(metaclass=ABCMeta):
                     postfix = v.index('Dig')
                     for fuzzPayl in self.__fuzzList:
                         payl = v[:postfix] + fuzzPayl
+                        payl = payl.encode('utf-8')
                         try:
                             resp = self.req(method, sess, url, payl)
                             respList.append({payl:resp})
