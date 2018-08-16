@@ -11,7 +11,7 @@ class SQLi(core.fuzzer.Fuzzer):
             isVuln = False
             # sql 은 뭘 체크하지..?
             for payl, resp in respSet.items():
-                if payl in resp.text:
+                if not resp.ok:
                     isVuln = True
             report.append({'payl':payl,'resInfo':[resp.status_code, isVuln]})
         return report
