@@ -29,7 +29,6 @@ class Controller:
                 atkFlag += 4
             self.atkFlag = atkFlag
             self.fuzzData = dump
-        print(dump)
     
     def needCrawl(self):
         dump = self.fuzzData

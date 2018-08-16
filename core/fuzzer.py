@@ -20,7 +20,7 @@ class Fuzzer(metaclass=ABCMeta):
         __dictPath = os.getcwd()+"/core/dict/"+self._atkType
         try:
             for item in os.scandir(__dictPath):
-                __dictFile = open("./core/dict/"+self._atkType+"/"+item.name, encoding='utf-8') 
+                __dictFile = open("./core/dict/"+self._atkType+"/"+item.name, errors='ignore') 
                 self.__fuzzList += __dictFile.read().splitlines()
                 # Remove Duplicated Payload
                 self.__fuzzList = list(set(self.__fuzzList))
@@ -37,16 +37,16 @@ class Fuzzer(metaclass=ABCMeta):
         respList = []
         for form in formSet:
             for method, paramDict in form.items():
-                for k, v in paramDict.items():
-                    postfix = v.index('Dig')
-                    for fuzzPayl in self.__fuzzList:
-                        payl = v[:postfix] + fuzzPayl
-                        payl = payl.encode('utf-8')
-                        try:
-                            resp = self.req(method, sess, url, payl)
-                            respList.append({payl:resp})
-                        except Exception as err:
-                            print(err)
+                for fuzzPayl in self.__fuzzList:
+                    payl = {}
+                    for k, v in paramDict.items():
+                        postfix = v.index('Dig')
+                        payl[k] = v[:postfix] + fuzzPayl
+                    try:
+                        resp = self.req(method, sess, url, payl)
+                        respList.append({fuzzPayl:resp})
+                    except Exception as err:
+                        print(err)
         return respList
 
 
@@ -66,6 +66,10 @@ class Fuzzer(metaclass=ABCMeta):
         __destPath = os.getcwd()+"/result/"+str(self.__key)
         if not os.path.exists('result'):
             os.mkdir('./result')
-        os.mkdir('./result/'+str(self.__key))
-        with open(__destPath+self._atkType+'.json', 'w') as out:
+        if not os.path.exists('result/'+str(self.__key)):
+            os.mkdir('./result/'+str(self.__key))
+        with open(__destPath+"/"+self._atkType+'.json', 'w') as out:
             json.dump(result, out)
+        if not os.path.exists('./result/'+str(self.__key)+'/queueInfo.txt'):
+            infoFile = open(__destPath+"/queueInfo.txt", "w")
+            infoFile.write("URL="+self.fuzzData['url'])
