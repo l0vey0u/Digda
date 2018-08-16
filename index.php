@@ -90,6 +90,9 @@
 
 	</form>
 	</div>
+	<footer>
+		<a href='http://kknock.org:8087/Digda/view.php'> Vue </a>
+	</footer>
 </body>
 
 </html>

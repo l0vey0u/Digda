@@ -49,6 +49,5 @@ class Crawler:
                 param[nameTag]='Dig'
             formSet.append({method:param})
         return formSet
-            
 
         

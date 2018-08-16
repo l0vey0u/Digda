@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> Vue Page </title>
+	<meta charset='utf-8'/>
+</head>
+<body>
+	<form method='get'>
+		<input type='text' name='key'/>
+		<input type='submit'/>
+	</form>
+</body>
+</html>
 <?php
 	session_start();
 	function checkValidate($q)
@@ -28,6 +41,9 @@
 	}
 	else
 	{
-		print("PRINT LIST");
+		foreach($queue as $q) 
+		{
+			echo $q." | ".date("F d Y H:i:s.", filemtime("./queue/".$q))."<br/>";
+		}
 	}
 ?>
