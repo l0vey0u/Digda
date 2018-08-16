@@ -3,13 +3,14 @@ from abc import *
 import sys
 import json
 import os
+import requests
 
 class Fuzzer(metaclass=ABCMeta):
     __key = 0
     __fuzzList = []
     _atkType = ''
 
-    def __init__(self, key, fuzzData, _atkType):
+    def __init__(self, fuzzData, _atkType):
         self.__key = key
         self.fuzzData = json.load(fuzzData)
         self.loadDict()
@@ -27,9 +28,33 @@ class Fuzzer(metaclass=ABCMeta):
         except Exception as err:
             print(err)
 
-    @abstractmethod
     def fuzz(self):
-        pass
+        formSet = self.fuzzData['formSet']
+        url = self.fuzzData['url']
+        sess = requests.Session()
+
+        respList = []
+        for form in formSet:
+            for method, paramDict in form.items():
+                for k, v in paramDict.items():
+                    postfix = v.index('Dig')
+                    for fuzzPayl in self.__fuzzList:
+                        payl = v[:postfix] + fuzzPayl
+                        try:
+                            resp = self.req(method, sess, url, payl)
+                            respList.append({payl:resp})
+                        except Exception as err:
+                            print(err)
+        return respList
+
+
+    def req(self, method, sess, url, payl):
+        if method == 'get':
+            return sess.get(url=url, params=payl)
+        elif method == 'post':
+            return sess.post(url=url, data=payl)
+        else:
+            raise Exception("Method is NOT GET or POST")
 
     @abstractmethod
     def checkVuln(self):

@@ -1,4 +1,4 @@
-#import core.xss
+import core.xss
 #import core.sqli
 #import core.dirlist
 import sys
@@ -55,8 +55,6 @@ class Controller:
             print(err)
 
         atkFlag = self.atkFlag
-        print(json.dumps(dump))
-        return
         # Fuzz!
         if atkFlag >= 4:
             dirl = DirList(self.__key, json.dumps(self.fuzzData))
