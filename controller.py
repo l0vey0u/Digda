@@ -64,6 +64,7 @@ class Controller:
             atkFlag -= 2
         if atkFlag >=1:
             xss = core.xss.XSS(self.__key, json.dumps(self.fuzzData))
+            xss.exportResult(xss.checkVuln(xss.fuzz()))
             atkFlag -=1
 c = Controller()
 c.readQueue()
