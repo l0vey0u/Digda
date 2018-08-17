@@ -3,6 +3,15 @@
 <head>
 	<title> Vue Page </title>
 	<meta charset='utf-8'/>
+	<style>
+  table {
+    width: 100%;
+    border: 1px solid #444444;
+  }
+  th, td {
+    border: 1px solid #444444;
+  }
+</style>
 </head>
 <body>
 	<form method='get'>
@@ -46,9 +55,9 @@
 				echo "<table>";
                 foreach($xss_data as $xss)
                 {	
+						echo "<td>".$status.'</td>';
                         echo "<tr><td>".htmlentities($xss->payl).'</td>';
                         list($status, $isVuln) = $xss->resInfo;
-                        echo "<td>".$status.'</td>';
 						echo "<td>".$isVuln ? 'Y':'N'."</td>";
                         echo "<tr/>";
 				}
