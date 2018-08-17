@@ -4,8 +4,10 @@ import json
 
 class Crawler:
     paramList = []
-    def __init__(self, url):
+    def __init__(self, url, cookie='', header=''):
         self.url = url
+        self.cookie = cookie
+        self.header = header 
         self.session = requests.Session()
         try:
             self.parsedHtml, self.header = self.parseHtml(self.url, self.session)
@@ -13,10 +15,10 @@ class Crawler:
             print(err)
             
     def parseHtml(self, url, session):
-        res = session.post(url)
+        res = session.post(url, cookies=self.cookie, headers=self.header)
         # Reload Page
         if not res.ok:
-            res = session.post(url)
+            res = session.post(url, cookies=self.cookie, headers=self.header)
         if not res.ok:
             raise Exception('Can\'t load website :: '+str(res.status_code))
         res.encoding = 'utf-8'

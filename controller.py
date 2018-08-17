@@ -46,7 +46,7 @@ class Controller:
         dump = self.fuzzData
         try:
             if self.needCrawl():
-                dump['formSet'] = Crawler(dump['url']).crawlParam()
+                dump['formSet'] = Crawler(dump['url'], dump['cookie'], dump['header']).crawlParam()
                 dump.pop('method')
                 dump.pop('param')
             else:

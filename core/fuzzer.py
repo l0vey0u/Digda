@@ -35,7 +35,6 @@ class Fuzzer(metaclass=ABCMeta):
         cookie = self.fuzzData['cookie']
         header = self.fuzzData['header']
         sess = requests.Session()
-
         respList = []
         for form in formSet:
             for method, paramDict in form.items():

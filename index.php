@@ -97,11 +97,11 @@
 </html>
 
 <?php
-	function parseParam($paramStr, $delimeter = ';', $checkDigPoint=true) {
+	function parseParam($paramStr, $delimeter = ';', $kvSplit = '=', $checkDigPoint=true) {
 		$paramDict = array();
 		$paramPair = explode($delimeter, $paramStr);
 		foreach($paramPair as $pp) {
-			list($key, $value) = explode('=', $pp);
+			list($key, $value) = explode($kvSplit, $pp);
 			if(!$checkDigPoint || strpos($value, 'Dig') !== FALSE) {
 				$paramDict[$key] = $value;
 			} else {
@@ -156,7 +156,7 @@
 	if(!empty($_POST['header']))
 	{
 		try {
-			$header = parseParam($_POST['header'], '@', $checkDigPoint=false);
+			$header = parseParam($_POST['header'], '@', $kvSplit='>', $checkDigPoint=false);
 		} catch(Exception $e) {
 			exit($e->getMessage());
 		}
