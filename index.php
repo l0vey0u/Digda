@@ -97,9 +97,9 @@
 </html>
 
 <?php
-	function parseParam($paramStr) {
+	function parseParam($paramStr, $delimeter = ';') {
 		$paramDict = array();
-		$paramPair = explode(';', $paramStr);
+		$paramPair = explode($delimeter, $paramStr);
 		foreach($paramPair as $pp) {
 			list($key, $value) = explode('=', $pp);
 			if(strpos($value, 'Dig') !== FALSE) {
@@ -130,6 +130,23 @@
 
 	if(!empty($_POST['method']))
 		$method = $_POST['method'];
+	if(!empty($_POST['cookie']))
+	{
+		try {
+			$cookie = parseParam($_POST['cookie']);
+		} catch(Exception $e) {
+			exit($e->getMessage());
+		}
+	}
+		
+	if(!empty($_POST['header']))
+	{
+		try {
+			$header = parseParam($_POST['header'], '@');
+		} catch(Exception $e) {
+			exit($e->getMessage());
+		}
+	}
 	if(!empty($_POST['param']))
 	{
 		if($method==='')
@@ -144,11 +161,6 @@
 			exit($e->getMessage());
 		}
 	}
-		
-	if(!empty($_POST['cookie']))
-		$cookie = $_POST['cookie'];
-	if(!empty($_POST['header']))
-		$header = $_POST['header'];
 
 	if($isRightForm) {
 		$sheet = array(

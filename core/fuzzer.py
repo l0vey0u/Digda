@@ -32,6 +32,8 @@ class Fuzzer(metaclass=ABCMeta):
     def fuzz(self):
         formSet = self.fuzzData['formSet']
         url = self.fuzzData['url']
+        cookie = self.fuzzData['cookie']
+        header = self.fuzzData['header']
         sess = requests.Session()
 
         respList = []
@@ -43,18 +45,18 @@ class Fuzzer(metaclass=ABCMeta):
                         postfix = v.index('Dig')
                         payl[k] = v[:postfix] + fuzzPayl
                     try:
-                        resp = self.req(method, sess, url, payl)
+                        resp = self.req(method, sess, url, payl, cookie, header)
                         respList.append({fuzzPayl:resp})
                     except Exception as err:
                         print(err)
         return respList
 
 
-    def req(self, method, sess, url, payl):
+    def req(self, method, sess, url, payl, cookie, header):
         if method == 'get':
-            return sess.get(url=url, params=payl)
+            return sess.get(url=url, params=payl, cookies=cookie, headers=header)
         elif method == 'post':
-            return sess.post(url=url, data=payl)
+            return sess.post(url=url, data=payl, cookies=cookie, headers=header)
         else:
             raise Exception("Method is NOT GET or POST")
 
