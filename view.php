@@ -42,15 +42,17 @@
             {
                 echo "<h3>&nbspXSS&nbsp</h3>";
                 $xss_json = file_get_contents('./result/'.$_GET['key'].'/xss.json');
-                $xss_data = json_decode($xss_json);
+				$xss_data = json_decode($xss_json);
+				echo "<table>";
                 foreach($xss_data as $xss)
-                {
-                        echo htmlentities($xss->payl).'&nbsp';
+                {	
+                        echo "<tr><td>".htmlentities($xss->payl).'</td>';
                         list($status, $isVuln) = $xss->resInfo;
-                        echo $status.'&nbsp';
-                        echo $isVuln ? 'Y':'N';
-                        echo "<br/>";
-                }
+                        echo "<td>".$status.'</td>';
+						echo "<td>".$isVuln ? 'Y':'N'."</td>";
+                        echo "<tr/>";
+				}
+				echo "</table>";
             }
             if(file_exists('./result/'.$_GET['key'].'/sqli.json'))
             {
