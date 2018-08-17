@@ -62,7 +62,7 @@
                 {	
 						list($status, $duration, $isVuln, $resp_text) = $xss->resInfo;
 						echo "<tr><td>".$status.'</td>';
-						echo "<td>".$duration."</td>";
+						echo "<td>".$duration."ms</td>";
                         echo "<td>".htmlentities($xss->payl).'</td><td>';
 						echo $isVuln ? 'Y':'N';
 						echo "</td></tr>";
@@ -77,9 +77,9 @@
 				echo "<table><tbody>";
                 foreach($sqli_data as $sqli)
                 {
-						list($status, $duration, $isVuln, $resp_text) = $xss->resInfo;
+						list($status, $duration, $isVuln, $resp_text) = $sqli->resInfo;
 						echo "<tr><td>".$status.'</td>';
-						echo "<td>".$duration."</td>";
+						echo "<td>".$duration."ms</td>";
                         echo "<td>".htmlentities($sqli->payl).'</td><td>';
                         echo $isVuln ? 'Y':'N';
                         echo "</td></tr>";

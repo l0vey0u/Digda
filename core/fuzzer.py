@@ -49,10 +49,10 @@ class Fuzzer(metaclass=ABCMeta):
                         resp = self.req(method, sess, url, payl, cookie, header)
                         if filtType:
                             if filtType == 'show':
-                                if not filtMsg in resp.text:
+                                if not filtMsg.lower() in resp.text.lower():
                                     continue
                             if filtType == 'hide':
-                                if filtMsg in resp.text:
+                                if filtMsg.lower() in resp.text.lower():
                                     continue
                         respList.append({fuzzPayl:resp})
                     except Exception as err:
@@ -85,4 +85,4 @@ class Fuzzer(metaclass=ABCMeta):
             infoFile.write("URL="+self.fuzzData['url'])
             if self.fuzzData['filtType']:
                 if self.fuzzData['filtMsg']:
-                    infoFile.write(self.fuzzData['fileType']+" : "+self.fuzzData['filtMsg'])
+                    infoFile.write('\n'+self.fuzzData['filtType']+" : "+self.fuzzData['filtMsg'])
