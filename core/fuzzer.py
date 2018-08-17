@@ -34,6 +34,8 @@ class Fuzzer(metaclass=ABCMeta):
         url = self.fuzzData['url']
         cookie = self.fuzzData['cookie']
         header = self.fuzzData['header']
+        filtType = self.fuzzData['filtType']
+        filtMsg = self.fuzzData['filtMsg']
         sess = requests.Session()
         respList = []
         for form in formSet:
@@ -45,6 +47,13 @@ class Fuzzer(metaclass=ABCMeta):
                         payl[k] = v[:postfix] + fuzzPayl
                     try:
                         resp = self.req(method, sess, url, payl, cookie, header)
+                        if filtType:
+                            if filtType == 'show':
+                                if not filtMsg in resp.text:
+                                    continue
+                            if filtType == 'hide':
+                                if filtMsg in resp.text:
+                                    continue
                         respList.append({fuzzPayl:resp})
                     except Exception as err:
                         print(err)
@@ -74,3 +83,6 @@ class Fuzzer(metaclass=ABCMeta):
         if not os.path.exists('./result/'+str(self.__key)+'/queueInfo.txt'):
             infoFile = open(__destPath+"/queueInfo.txt", "w")
             infoFile.write("URL="+self.fuzzData['url'])
+            if self.fuzzData['filtType']:
+                if self.fuzzData['filtMsg']:
+                    infoFile.write(self.fuzzData['fileType']+" : "+self.fuzzData['filtMsg'])

@@ -4,7 +4,6 @@
 	<title> :: 디그다 :: </title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" href="css/style.css"/>
-    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"/> -->
 </head>
 
 <body>
@@ -81,6 +80,21 @@
 							<input type="text" name="header" /> </label>
 					</td>
 				</tr>
+				<tr>
+					<td>
+						<label> Show / Hide </label>
+						<td>
+							<label>
+								<input type="radio" name="filter" value="show"/> show </label>
+						</td>
+						<td>
+							<label>
+								<input type="radio" name="filter" value="hide" /> hide </label>
+						</td>
+						<td>
+								<input type="text" name="filtMsg"/>
+						</td>
+				</tr>
 			</table>
 		</fieldset>
 
@@ -91,8 +105,6 @@
 	<footer>
 		<a href='http://kknock.org:8087/Digda/view.php'> Vue </a>
 	</footer>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
 </html>
 
@@ -127,6 +139,8 @@
 	$param = '';
 	$cookie = '';
 	$header = '';
+	$filtType = '';
+	$filtMsg = '';
 
 	if(!empty($_POST['method']))
 		$method = $_POST['method'];
@@ -161,7 +175,11 @@
 			exit($e->getMessage());
 		}
 	}
-
+	// 나중에 filter 체크하고 메시지를 쓰도록 바꾸자
+	if(!empty($_POST['filter']))
+		$filtType = $_POST['filter'];
+	if(!empty($_POST['filtMsg']))
+		$filtMsg = $_POST['filtMsg'];
 	if($isRightForm) {
 		$sheet = array(
 				'atkType' => $atkArr,
@@ -170,6 +188,8 @@
 				'param' => $param,
 				'cookie' => $cookie,
 				'header' => $header,
+				'filtType' => $filtType,
+				'filtMsg' => $filtMsg,
 		);
 		$parsedSheet = json_encode((object)$sheet);
 		if(!is_dir('queue'))

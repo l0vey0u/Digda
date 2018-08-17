@@ -45,8 +45,13 @@
             {
 			    shell_exec('python controller.py '.$_GET['key']);		
             }
-            $infoFile = file_get_contents('./result/'.$_GET['key'].'/queueInfo.txt');
-            echo "<h1> URL : ".substr($infoFile,4)."</h1>";
+			$infoFile = file_get_contents('./result/'.$_GET['key'].'/queueInfo.txt');
+			$infoLine = explode("\n", $infoFile)
+			echo "<h1> URL : ".substr($infoLine[0],4)."</h1>";
+			if($infoLine[1] !== '')
+			{
+				echo "<h1>".$infoLine[1]."</h1>";
+			}
 			if(file_exists('./result/'.$_GET['key'].'/xss.json'))
             {
                 echo "<h3>&nbspXSS&nbsp</h3>";
@@ -55,11 +60,12 @@
 				echo "<table><tbody>";
                 foreach($xss_data as $xss)
                 {	
+						list($status, $duration, $isVuln, $resp_text) = $xss->resInfo;
 						echo "<tr><td>".$status.'</td>';
+						echo "<td>".$duration."</td>";
                         echo "<td>".htmlentities($xss->payl).'</td><td>';
-                        list($status, $isVuln) = $xss->resInfo;
 						echo $isVuln ? 'Y':'N';
-                        echo "</td></tr>";
+						echo "</td></tr>";
 				}
 				echo "</tbody></table>";
             }
@@ -67,15 +73,18 @@
             {
                 echo "<h3>&nbspSQLi&nbsp</h3>";
                 $sqli_json = file_get_contents('./result/'.$_GET['key'].'/sqli.json');
-                $sqli_data = json_decode($sqli_json);
+				$sqli_data = json_decode($sqli_json);
+				echo "<table><tbody>";
                 foreach($sqli_data as $sqli)
                 {
-                        echo htmlentities($sqli->payl).'&nbsp';
-                        list($status, $isVuln) = $sqli->resInfo;
-                        echo $status.'&nbsp';
+						list($status, $duration, $isVuln, $resp_text) = $xss->resInfo;
+						echo "<tr><td>".$status.'</td>';
+						echo "<td>".$duration."</td>";
+                        echo "<td>".htmlentities($sqli->payl).'</td><td>';
                         echo $isVuln ? 'Y':'N';
-                        echo "<br/>";
-                }
+                        echo "</td></tr>";
+				}
+				echo "</tbody></table>";
            }
 		}
 		else
