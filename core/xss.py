@@ -12,5 +12,6 @@ class XSS(core.fuzzer.Fuzzer):
             for payl, resp in respSet.items():
                 if payl in resp.text:
                     isVuln = True
-            report.append({'payl':payl,'resInfo':[resp.status_code, isVuln]})
+            duration = int(resp.elapsed.total_seconds()*1000)
+            report.append({'payl':payl,'resInfo':[resp.status_code, duration, isVuln, resp.text]})
         return report

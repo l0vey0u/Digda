@@ -9,10 +9,10 @@ class SQLi(core.fuzzer.Fuzzer):
         report = []
         for respSet in respList:
             isVuln = False
-            # sql 은 뭘 체크하지..?
             for payl, resp in respSet.items():
                 if not resp.ok:
                     isVuln = True
-            report.append({'payl':payl,'resInfo':[resp.status_code, isVuln]})
+            duration = int(resp.elapsed.total_seconds()*1000)
+            report.append({'payl':payl,'resInfo':[resp.status_code, duration, isVuln, resp.text]})
         return report
 
