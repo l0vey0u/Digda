@@ -46,7 +46,7 @@
 			    shell_exec('python controller.py '.$_GET['key']);		
             }
 			$infoFile = file_get_contents('./result/'.$_GET['key'].'/queueInfo.txt');
-			$infoLine = explode("\n", $infoFile)
+			$infoLine = explode("\n", $infoFile);
 			echo "<h1> URL : ".substr($infoLine[0],4)."</h1>";
 			if($infoLine[1] !== '')
 			{
