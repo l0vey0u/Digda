@@ -81,7 +81,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
 						<td>
 							<label>
 								<input type="radio" name="filter" value="show"/> show </label>
