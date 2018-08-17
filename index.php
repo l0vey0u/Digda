@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="ko">
 <head>
 	<title> :: 디그다 :: </title>
-	<meta charset="utf-8" />
-	<script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js"></script>
-	<link rel="stylesheet" href="style.css">
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="style.css"/>
+    <!-- <link rel="stylesheet" href="css/bootstrap.min.css"/> -->
 </head>
 
 <body>
-
 	<script type="text/javascript">
 		$(document).ready(function () {
 			$('#enqueue').click(function () {
@@ -21,7 +19,7 @@
 			});
 		});
 	</script>
-	<div class = "box">
+	<section class = "box">
 	<form method="POST">
 		<fieldset>
 			<legend> 퍼징 대상 선택 </legend>
@@ -89,12 +87,13 @@
 		<input type="submit" id="enqueue" value="큐 등록" />
 
 	</form>
-	</div>
+	</section>
 	<footer>
 		<a href='http://kknock.org:8087/Digda/view.php'> Vue </a>
 	</footer>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
 </body>
-
 </html>
 
 <?php

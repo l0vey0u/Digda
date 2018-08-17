@@ -4,14 +4,14 @@
 	<title> Vue Page </title>
 	<meta charset='utf-8'/>
 	<style>
-  table {
-    width: 100%;
-    border: 1px solid #444444;
-  }
-  th, td {
-    border: 1px solid #444444;
-  }
-</style>
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+        }
+        th, td {
+            border: 1px solid #444444;
+        }
+    </style>
 </head>
 <body>
 	<form method='get'>
@@ -52,16 +52,16 @@
                 echo "<h3>&nbspXSS&nbsp</h3>";
                 $xss_json = file_get_contents('./result/'.$_GET['key'].'/xss.json');
 				$xss_data = json_decode($xss_json);
-				echo "<table>";
+				echo "<table><tbody>";
                 foreach($xss_data as $xss)
                 {	
-						echo "<td>".$status.'</td>';
-                        echo "<tr><td>".htmlentities($xss->payl).'</td>';
+						echo "<tr><td>".$status.'</td>';
+                        echo "<td>".htmlentities($xss->payl).'</td><td>';
                         list($status, $isVuln) = $xss->resInfo;
-						echo "<td>".$isVuln ? 'Y':'N'."</td>";
-                        echo "<tr/>";
+						echo $isVuln ? 'Y':'N';
+                        echo "</td></tr>";
 				}
-				echo "</table>";
+				echo "</tbody></table>";
             }
             if(file_exists('./result/'.$_GET['key'].'/sqli.json'))
             {
