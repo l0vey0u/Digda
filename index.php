@@ -97,12 +97,12 @@
 </html>
 
 <?php
-	function parseParam($paramStr, $delimeter = ';') {
+	function parseParam($paramStr, $delimeter = ';', $checkDigPoint=true) {
 		$paramDict = array();
 		$paramPair = explode($delimeter, $paramStr);
 		foreach($paramPair as $pp) {
 			list($key, $value) = explode('=', $pp);
-			if(strpos($value, 'Dig') !== FALSE) {
+			if(!$checkDigPoint || strpos($value, 'Dig') !== FALSE) {
 				$paramDict[$key] = $value;
 			} else {
 				throw new Exception("None Dig Point Found");
@@ -130,23 +130,6 @@
 
 	if(!empty($_POST['method']))
 		$method = $_POST['method'];
-	if(!empty($_POST['cookie']))
-	{
-		try {
-			$cookie = parseParam($_POST['cookie']);
-		} catch(Exception $e) {
-			exit($e->getMessage());
-		}
-	}
-		
-	if(!empty($_POST['header']))
-	{
-		try {
-			$header = parseParam($_POST['header'], '@');
-		} catch(Exception $e) {
-			exit($e->getMessage());
-		}
-	}
 	if(!empty($_POST['param']))
 	{
 		if($method==='')
@@ -157,6 +140,23 @@
 
 		try {
 			$param = parseParam($_POST['param']);
+		} catch(Exception $e) {
+			exit($e->getMessage());
+		}
+	}
+	if(!empty($_POST['cookie']))
+	{
+		try {
+			$cookie = parseParam($_POST['cookie'], $checkDigPoint=false);
+		} catch(Exception $e) {
+			exit($e->getMessage());
+		}
+	}
+		
+	if(!empty($_POST['header']))
+	{
+		try {
+			$header = parseParam($_POST['header'], '@', $checkDigPoint=false);
 		} catch(Exception $e) {
 			exit($e->getMessage());
 		}
