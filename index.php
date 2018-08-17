@@ -3,7 +3,7 @@
 <head>
 	<title> :: 디그다 :: </title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" href="css/style.css"/>
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css"/> -->
 </head>
 
